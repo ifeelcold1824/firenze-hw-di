@@ -1,8 +1,8 @@
 package com.tp.di;
 
-import com.tp.di.exception.BaseException;
 import com.tp.di.exception.ComponentNotRegisteredException;
 import com.tp.di.exception.NoInstantiableConstructorException;
+import com.tp.di.testDummies.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContainerTest {
 
     @Test
-    public void should_add_component_to_container(){
+    public void should_add_component_to_container() {
         Container container = new Container();
         container.addComponent(String.class);
         Set<Class<?>> components = container.getComponents();
@@ -53,6 +53,16 @@ class ContainerTest {
         Container container = new Container();
 
         assertThrows(ComponentNotRegisteredException.class, () -> container.getInstance(Car.class));
+    }
+
+    @Test
+    public void should_throw_exception_when_found_circular_dependency() {
+        Container container = new Container();
+        container.addComponent(CircularA.class);
+        container.addComponent(CircularB.class);
+        container.addComponent(CircularC.class);
+
+        assertThrows(CircularDependencyException.class, () -> container.getInstance(CircularA.class));
     }
 
 }

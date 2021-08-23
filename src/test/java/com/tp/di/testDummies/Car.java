@@ -1,4 +1,4 @@
-package com.tp.di;
+package com.tp.di.testDummies;
 
 public class Car {
     private final Engine engine;
