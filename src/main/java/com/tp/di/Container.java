@@ -25,11 +25,7 @@ public class Container {
             throw new ComponentNotRegisteredException(clz.getSimpleName() + " is not registered in the container");
         }
 
-        Constructor<?> constructor = getInjectableConstructor(clz)
-                .orElseThrow(
-                        () -> new NoInstantiableConstructorException("Could not find a instantiable constructor to instantiate " + clz.getSimpleName() + ".")
-                );
-
+        Constructor<?> constructor = getInjectableConstructor(clz);
         Object[] params = Arrays.stream(constructor.getParameters())
                 .map(parameter -> getInstance(parameter.getType()))
                 .toArray();
@@ -41,12 +37,15 @@ public class Container {
         }
     }
 
-    private Optional<Constructor<?>> getInjectableConstructor(Class<?> clz) {
+    private Constructor<?> getInjectableConstructor(Class<?> clz) {
         return Arrays.stream(clz.getConstructors())
                 .filter(constructor ->
                         Arrays.stream(constructor.getParameterTypes())
                                 .allMatch(param -> components.contains(param) && param != clz)
                 )
-                .findFirst();
+                .findFirst()
+                .orElseThrow(
+                        () -> new NoInstantiableConstructorException("Could not find a instantiable constructor to instantiate " + clz.getSimpleName() + ".")
+                );
     }
 }
