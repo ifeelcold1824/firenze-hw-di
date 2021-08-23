@@ -1,5 +1,8 @@
 package com.tp.di;
 
+import com.tp.di.exception.BaseException;
+import com.tp.di.exception.ComponentNotRegisteredException;
+import com.tp.di.exception.NoInstantiableConstructorException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -35,6 +38,21 @@ class ContainerTest {
         Car car = container.getInstance(Car.class);
 
         assertEquals("started", car.getEngine().start());
+    }
+
+    @Test
+    public void should_throw_exception_when_no_valid_constructor() {
+        Container container = new Container();
+        container.addComponent(Car.class);
+
+        assertThrows(NoInstantiableConstructorException.class, () -> container.getInstance(Car.class));
+    }
+
+    @Test
+    public void should_throw_exception_when_component_not_registered() {
+        Container container = new Container();
+
+        assertThrows(ComponentNotRegisteredException.class, () -> container.getInstance(Car.class));
     }
 
 }

@@ -1,6 +1,8 @@
 package com.tp.di;
 
 import com.tp.di.exception.BaseException;
+import com.tp.di.exception.ComponentNotRegisteredException;
+import com.tp.di.exception.NoInstantiableConstructorException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,12 +22,12 @@ public class Container {
 
     public <T> T getInstance(Class<T> clz) {
         if (!components.contains(clz)) {
-            throw new BaseException(clz.getSimpleName() + " is not registered in the container");
+            throw new ComponentNotRegisteredException(clz.getSimpleName() + " is not registered in the container");
         }
 
         Constructor<?> constructor = getInjectableConstructor(clz)
                 .orElseThrow(
-                        () -> new BaseException("Could not find a valid constructor to instantiate.")
+                        () -> new NoInstantiableConstructorException("Could not find a instantiable constructor to instantiate " + clz.getSimpleName() + ".")
                 );
 
         Object[] params = Arrays.stream(constructor.getParameters())
