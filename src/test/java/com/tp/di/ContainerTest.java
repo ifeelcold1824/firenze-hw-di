@@ -18,4 +18,13 @@ class ContainerTest {
         assertTrue(components.contains(String.class));
     }
 
+    @Test
+    public void should_instantiate_component() throws Exception {
+        Container container = new Container();
+        container.addComponent(String.class);
+        String instance = container.getInstance(String.class);
+
+        assertEquals("", instance);
+    }
+
 }

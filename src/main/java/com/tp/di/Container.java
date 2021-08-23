@@ -14,4 +14,11 @@ public class Container {
     public Set<Class<?>> getComponents() {
         return components;
     }
+
+    public <T>T getInstance(Class<T> clz) throws Exception {
+        if(!components.contains(clz)){
+            throw new Exception(clz.getSimpleName() + " is not registered in the container");
+        }
+        return clz.getConstructor().newInstance();
+    }
 }
