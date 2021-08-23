@@ -19,12 +19,22 @@ class ContainerTest {
     }
 
     @Test
-    public void should_instantiate_component() throws Exception {
+    public void should_instantiate_component() {
         Container container = new Container();
         container.addComponent(String.class);
         String instance = container.getInstance(String.class);
 
         assertEquals("", instance);
+    }
+
+    @Test
+    public void should_assemble_components() {
+        Container container = new Container();
+        container.addComponent(Engine.class);
+        container.addComponent(Car.class);
+        Car car = container.getInstance(Car.class);
+
+        assertEquals("started", car.getEngine().start());
     }
 
 }
