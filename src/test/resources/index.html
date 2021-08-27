@@ -1,0 +1,73 @@
+<html lang="zh">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/languages/java.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <title>Introduction</title>
+    <style>
+        code {
+            line-height: 1.4em;
+            font-size: 16px;
+        }
+
+        body {
+            padding: 2em;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        section {
+            margin-bottom: 48px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        li {
+            padding-left: 0.5em;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        pre code.hljs {
+            padding: 0;
+        }
+
+    </style>
+</head>
+<body>
+<section>
+    <h1>Injection Container</h1>
+    <p>
+        Injection Container可以对对象进行实例化。比如：
+    </p>
+
+    <pre><code class="hljs language-java">
+    Container container = new Container();
+    container.addComponent(ArrayList.class);
+    List list = container.getInstance(ArrayList.class);
+    </code></pre>
+</section>
+<section>
+
+    <h2>Reference：</h2>
+    <ol>
+        <li>
+            <a href="https://martinfowler.com/articles/injection.html">Inversion of Control Containers and the
+                Dependency Injection pattern</a>
+        </li>
+    </ol>
+</section>
+</body>
+</html>
