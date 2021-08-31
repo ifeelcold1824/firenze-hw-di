@@ -48,17 +48,54 @@
 </head>
 <body>
 <section>
-    <h1>Injection Container</h1>
+    <h1>Container</h1>
     <p>
-        Injection Container可以对对象进行实例化。比如：
+        Container可以对对象进行实例化。比如：
     </p>
 
     <pre><code class="hljs language-java">
     Container container = new Container();
     container.addComponent(ArrayList.class);
     List list = container.getInstance(ArrayList.class);
+
+    // Will equals to
+    List list2 = new ArrayList()
     </code></pre>
 </section>
+
+<section>
+    <h2>简单依赖</h2>
+    <p>
+        在上述的例子中，ArrayList存在无参构造器，所以通过getInstance方法可以直接实例化。在大多数场景，对象是会存在依赖关系的。
+        比如：
+    </p>
+
+    <pre><code class="hljs language-java">
+    public class Car {
+        private final Engine engine;
+
+        public Car(Engine engine) {
+            this.engine = engine;
+        }
+
+
+        public Engine getEngine() {
+            return engine;
+        }
+    }
+    </code></pre>
+
+
+    <p>在如上的例子中，Car对Engine有着依赖关系，那么通过Container获取Car的实例时，将会同时</p>
+    <pre><code class="hljs language-java">
+    Container container = new Container();
+    container.addComponent(Engine.class);
+    container.addComponent(Car.class);
+
+    Car car = container.getInstance(Car.class);
+    </code></pre>
+</section>
+
 <section>
 
     <h2>Reference：</h2>
