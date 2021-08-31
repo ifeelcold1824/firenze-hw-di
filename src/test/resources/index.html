@@ -57,8 +57,9 @@
     Container container = new Container();
     container.addComponent(ArrayList.class);
     List list = container.getInstance(ArrayList.class);
-
-    // Will equals to
+    </code></pre>
+    <p>如此创建的ArrayList与通过new直接实例化的ArrayList有着相同的结果</p>
+    <pre><code class="hljs language-java">
     List list2 = new ArrayList()
     </code></pre>
 </section>
@@ -78,7 +79,6 @@
             this.engine = engine;
         }
 
-
         public Engine getEngine() {
             return engine;
         }
@@ -86,13 +86,21 @@
     </code></pre>
 
 
-    <p>在如上的例子中，Car对Engine有着依赖关系，那么通过Container获取Car的实例时，将会同时</p>
+    <p>在如上的例子中，Car对Engine有着依赖关系，那么通过Container获取Car的实例时，Container会先实例化Engine，再用engine实例化Car.</p>
     <pre><code class="hljs language-java">
     Container container = new Container();
     container.addComponent(Engine.class);
     container.addComponent(Car.class);
 
     Car car = container.getInstance(Car.class);
+    car.getEngine().start()
+    </code></pre>
+
+    <p>如此创建的Car与如下手动依次实例化有着相同的结果。</p>
+    <pre><code class="hljs language-java">
+    Engine engine = new Engine();
+    Car car2 = new Car(engine)
+    car.getEngine().start()
     </code></pre>
 </section>
 
