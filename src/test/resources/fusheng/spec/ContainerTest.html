@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-<section>
+<section class="example">
     <h1>Container</h1>
     <p>
         Container可以对对象进行实例化。比如：
@@ -55,19 +55,32 @@
 
     <pre><code class="hljs language-java">
     Container container = new Container();
-    container.addComponent(ArrayList.class);
-    List list = container.getInstance(ArrayList.class);
+    container.addComponent(String.class);
+    String string = container.getInstance(String.class);
     </code></pre>
-    <p>如此创建的ArrayList与通过new直接实例化的ArrayList有着相同的结果</p>
+    <p>
+        <span class="function" data-action="createStringFromContainer" data-return="string">
+            如此创建的String
+        </span>
+        与
+        <span class="function" data-action="createStringFromNew" data-return="string1">
+            通过new直接实例化的String
+        </span>
+        有着
+        <span class="assertion" data-actual="string === string1" data-expect="true">
+            相同
+        </span>
+        的结果
+    </p>
     <pre><code class="hljs language-java">
-    List list2 = new ArrayList()
+    String string2 = new String()
     </code></pre>
 </section>
 
 <section>
     <h2>简单依赖</h2>
     <p>
-        在上述的例子中，ArrayList存在无参构造器，所以通过getInstance方法可以直接实例化。在大多数场景，对象是会存在依赖关系的。
+        在上述的例子中，String存在无参构造器，所以通过getInstance方法可以直接实例化。在大多数场景，对象是会存在依赖关系的。
         比如：
     </p>
 

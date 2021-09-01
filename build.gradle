@@ -1,6 +1,21 @@
+
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.eMe-404:plugin:1.0.0"
+    }
+}
+
 plugins {
     id 'java'
 }
+
+apply plugin: "com.github.eMe-404.fusheng-plugin"
 
 group 'org.tp'
 version '1.0-SNAPSHOT'
@@ -12,6 +27,7 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'io.github.thxno:fusheng-runner:1.0'
 }
 
 test {
