@@ -54,9 +54,9 @@
     </p>
 
     <pre><code class="hljs language-java">
-    Container container = new Container();
-    container.addComponent(String.class);
-    return container.getInstance(String.class);
+        Container container = new Container();
+        container.addComponent(String.class);
+        return container.getInstance(String.class);
     </code></pre>
     <p>
         <span class="function" data-action="createStringFromContainer" data-return="string">
@@ -107,12 +107,12 @@
 
     <p>在如上的例子中，Car对Engine有着依赖关系，那么通过Container获取Car的实例时，Container会先实例化Engine，再用engine实例化Car.</p>
     <pre><code class="hljs language-java">
-    Container container = new Container();
-    container.addComponent(Engine.class);
-    container.addComponent(Car.class);
+        Container container = new Container();
+        container.addComponent(Engine.class);
+        container.addComponent(Car.class);
 
-    Car car = container.getInstance(Car.class);
-    return car.getEngine().start();
+        Car car = container.getInstance(Car.class);
+        return car.getEngine().start();
     </code></pre>
     <p>
         <span class="function" data-action="createCarFromContainer" data-return="car">
@@ -129,10 +129,75 @@
         的结果
     </p>
     <pre><code class="hljs language-java">
-    Engine engine = new Engine();
-    Car car1 = new Car(engine);
-    return car1.getEngine().start();
+        Engine engine = new Engine();
+        Car car1 = new Car(engine);
+        return car1.getEngine().start();
     </code></pre>
+</section>
+
+<section class="example">
+    <h2>注入接口</h2>
+    <p>在使用场景中，Engine可能是一个接口并有多个实现。比如</p>
+    <pre><code class="hljs language-java">
+    public interface IEngine {
+        public String start();
+    }
+
+
+    public class EngineA implements IEngine {
+        @Override
+        public String start() {
+            return "EngineA started";
+        }
+    }
+
+    public class EngineB implements IEngine {
+        @Override
+        public String start() {
+            return "EngineB started";
+        }
+    }
+
+    public class CarWithIEngine {
+        private final IEngine engine;
+
+        public CarWithIEngine(@Inject(EngineB.class) IEngine engine) {
+            this.engine = engine;
+        }
+
+
+        public IEngine getEngine() {
+            return engine;
+        }
+    }
+    </code></pre>
+    <p>此时，如果希望通过Container获取Car的实例</p>
+    <pre><code class="hljs language-java">
+        Container container = new Container();
+        container.addComponent(EngineA.class);
+        container.addComponent(EngineB.class);
+        container.addComponent(Car.class);
+        container.getInstance(Car.class);
+    </code></pre>
+    <p>Container并不知道期望注入哪一个Engine的实现。此时，就需要使用@Inject注解来标记需要注入的实现。如下：</p>
+    <pre><code class="hljs language-java">
+        public CarWithIEngine(@Inject(EngineB.class) IEngine engine) {
+            this.engine = engine;
+        }
+    </code></pre>
+    <p>再通过Container获取Car的实例时，注入的Engine将是EngineB的实例。</p>
+
+    <h3>
+        获取接口的所有实例
+    </h3>
+    <p>在上面的例子中，我们在容器中添加了EngineA与EngineB，他们都是接口Engine的实现。通过getInstances方法，可以同时获取到EngineA与EngineB的实例。</p>
+    <pre><code class="hljs language-java">
+        Container container = new Container();
+        container.addComponent(EngineA.class);
+        container.addComponent(EngineB.class);
+        container.getInstances(Engine.class);
+    </code></pre>
+    <p>此时，将获取到包含EngineA与EngineB的List。</p>
 </section>
 
 <section>

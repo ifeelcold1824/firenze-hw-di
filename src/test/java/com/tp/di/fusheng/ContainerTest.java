@@ -2,8 +2,7 @@ package com.tp.di.fusheng;
 
 import com.thoughtworks.fusheng.integration.junit5.FuShengTest;
 import com.tp.di.Container;
-import com.tp.di.testDummies.Car;
-import com.tp.di.testDummies.Engine;
+import com.tp.di.testDummies.*;
 
 @FuShengTest
 public class ContainerTest {
@@ -31,5 +30,14 @@ public class ContainerTest {
         Engine engine = new Engine();
         Car car1 = new Car(engine);
         return car1.getEngine().start();
+    }
+
+    public String createCarWithIEngineFromContainer(){
+        Container container = new Container();
+        container.addComponent(EngineA.class);
+        container.addComponent(EngineB.class);
+        container.addComponent(Car.class);
+        Car car = container.getInstance(Car.class);
+        return car.getEngine().start();
     }
 }
