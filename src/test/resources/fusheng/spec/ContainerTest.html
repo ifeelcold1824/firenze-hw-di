@@ -201,6 +201,49 @@
 </section>
 
 <section>
+    <h2>
+        Scope
+    </h2>
+    <p>通过getInstance方法获取实例时，每次都会获取一个新的实例。如果希望实现实例在整个应用程序中共享，可以在对象上使用@Scope注解。</p>
+    <pre><code class="hljs language-java">
+    @Scope(InjectionScope.SINGLETON)
+    public class SingletonEngine {
+        public SingletonEngine getEngine() {
+            return engine;
+        }
+    }
+
+    @Scope(InjectionScope.TRANSIENT)
+    public class TransientEngine{
+        public TransientEngine getEngine() {
+            return engine;
+        }
+    }
+    </code></pre>
+    <p>
+        @Scope注解有两种选项TRANSIENT，SINGLETON。默认将为TRANSIENT模式。
+    </p>
+    <p>TRANSIENT模式下，通过getInstance方法获取实例时，每次都会获取一个新的实例。</p>
+    <pre><code class="hljs language-java">
+        Container container = new Container();
+        container.addComponent(TransientEngine.class);
+        TransientEngine engine1 = container.getInstances(TransientEngine.class);
+        TransientEngine engine2 = container.getInstances(TransientEngine.class);
+    </code></pre>
+    <p>此时engine1的内存地址与engine2的内存地址将不同。</p>
+
+    <p>SINGLETON模式下，container会维护一个唯一的实例，通过getInstance方法获取实例时，每次都会获取同一个实例。</p>
+    <pre><code class="hljs language-java">
+        Container container = new Container();
+        container.addComponent(SingletonEngine.class);
+        SingletonEngine engine1 = container.getInstances(SingletonEngine.class);
+        SingletonEngine engine2 = container.getInstances(SingletonEngine.class);
+    </code></pre>
+    <p>此时engine1的内存地址与engine2的内存地址将相等。</p>
+
+</section>
+
+<section>
 
     <h2>Reference：</h2>
     <ol>
