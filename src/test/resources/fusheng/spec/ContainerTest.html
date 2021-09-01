@@ -50,13 +50,13 @@
 <section class="example">
     <h1>Container</h1>
     <p>
-        Container可以对对象进行实例化。比如：
+        <code></code>可以对对象进行实例化。比如：
     </p>
 
     <pre><code class="hljs language-java">
     Container container = new Container();
     container.addComponent(String.class);
-    String string = container.getInstance(String.class);
+    return container.getInstance(String.class);
     </code></pre>
     <p>
         <span class="function" data-action="createStringFromContainer" data-return="string">
@@ -73,11 +73,11 @@
         的结果
     </p>
     <pre><code class="hljs language-java">
-    String string2 = new String()
+    return new String()
     </code></pre>
 </section>
 
-<section>
+<section class="example">
     <h2>简单依赖</h2>
     <p>
         在上述的例子中，String存在无参构造器，所以通过getInstance方法可以直接实例化。在大多数场景，对象是会存在依赖关系的。
@@ -85,6 +85,12 @@
     </p>
 
     <pre><code class="hljs language-java">
+    public class Engine {
+        public String start() {
+            return "started";
+        }
+    }
+
     public class Car {
         private final Engine engine;
 
@@ -106,14 +112,26 @@
     container.addComponent(Car.class);
 
     Car car = container.getInstance(Car.class);
-    car.getEngine().start()
+    return car.getEngine().start();
     </code></pre>
-
-    <p>如此创建的Car与如下手动依次实例化有着相同的结果。</p>
+    <p>
+        <span class="function" data-action="createCarFromContainer" data-return="car">
+            如此创建的Car
+        </span>
+        与如下
+        <span class="function" data-action="createCarFromNew" data-return="car1">
+            手动依次实例化
+        </span>
+        有着
+        <span class="assertion" data-actual="car === car1" data-expect="true">
+            相同
+        </span>
+        的结果
+    </p>
     <pre><code class="hljs language-java">
     Engine engine = new Engine();
-    Car car2 = new Car(engine)
-    car.getEngine().start()
+    Car car1 = new Car(engine);
+    return car1.getEngine().start();
     </code></pre>
 </section>
 
